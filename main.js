@@ -18,7 +18,7 @@ function init() {
           var tab = getReaderTab();
           if (tab) {
             tab.focus();
-          } else {        
+          } else {
             opera.extension.tabs.create({ url: "https://bazqux.com/", focused: true });
           }
         }
@@ -30,11 +30,11 @@ function init() {
     var msg = event.data;
     if (msg !== 'init') {
       setUnreadCount(msg);
-    } 
+    }
   }
-  
+
   window.setInterval(function() {
-    if (getReaderTab() == null) {  
+    if (getReaderTab() == null) {
       getUnreadCount();
     }
   }, UPDATE_INTERVAL);
@@ -49,20 +49,20 @@ function setUnreadCount(count) {
   button.title = WIDGET_TITLE;
   button.badge.color = 'white';
   button.badge.backgroundColor = 'rgba(31, 95, 127, 0.9)';
-  button.badge.display = count > 0 ? 'block' : 'none';   
+  button.badge.display = count > 0 ? 'block' : 'none';
   button.badge.textContent = count < 1000 ? count : '999';
 }
 
 /**
  * Displays error icon and error message in badge.
- * 
+ *
  * @param {string} msg - error message
  */
 function setError(msg) {
   button.title = WIDGET_TITLE + ': ' + msg;
   button.badge.color = 'white';
   button.badge.backgroundColor = 'rgba(255, 58, 75, 0.9)';
-  button.badge.display = 'block';   
+  button.badge.display = 'block';
   button.badge.textContent = ' ! ';
 }
 
@@ -94,9 +94,9 @@ function getUnreadCount() {
 function getReaderTab() {
   var tabs = opera.extension.tabs.getAll();
   for (var i = 0; i < tabs.length; i++) {
-    if (tabs[i].url.indexOf("bazqux.com") >= 0) {
+    if (tabs[i].url.indexOf("https://bazqux.com") >= 0) {
       return tabs[i];
-    } 
+    }
   }
   return null;
 }
