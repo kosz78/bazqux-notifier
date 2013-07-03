@@ -3,23 +3,23 @@
 
   "name": "BazQux Notifier",
   "description": "Displays the number of unread items from BazQux.com",
-  "version": "1.0",
-  
-  "icons": { 
+  "version": "1.1",
+
+  "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",
-    "128": "icons/icon-128.png" 
+    "128": "icons/icon-128.png"
   },
 
   "background": {
     "persistent": false,
-    "page": "background.html"
+    "scripts": ["background.js"]
   },
-  
+
   "browser_action": {
     "default_icon": "icons/icon-19.png"
-  },        
-  
+  },
+
   "content_scripts": [
     {
       "matches": ["https://bazqux.com/*"],
@@ -27,9 +27,10 @@
       "run_at": "document_idle"
     }
   ],
-  
+
   "permissions": [
-    "https://bazqux.com/",
-    "tabs"  
+    "alarms",
+    "tabs",
+    "https://bazqux.com/"
   ]
 }

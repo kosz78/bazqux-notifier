@@ -1,18 +1,19 @@
 var BAZ_QUX_URL = 'https://bazqux.com/reader/api/0/unread-count?output=json';
-var UPDATE_INTERVAL = 120000; // 2 min interval
+var UPDATE_INTERVAL = 2.0; // 2 min interval
 var WIDGET_TITLE = 'BazQux Notifier';
 
-init();
+chrome.runtime.onInstalled.addListener(init);
 
 /**
  * Initializes the widget.
  */
 function init() {
+  console.log('init');
   chrome.browserAction.onClicked.addListener(function(atab) {
       chrome.tabs.query({url: "https://bazqux.com/*"}, function(tabs) {
         if (tabs.length > 0) {
           chrome.tabs.update(tabs[0].id, {url: "https://bazqux.com/", active: true, highlighted: true});
-        } else {   
+        } else {
           chrome.tabs.create({url: "https://bazqux.com/"});
         }
       });
@@ -26,13 +27,16 @@ function init() {
     }
   );
 
-  window.setInterval(function() {
+  chrome.alarms.onAlarm.addListener(function(alarm) {
+    console.log('check count');
     chrome.tabs.query({url: "https://bazqux.com/*"}, function(tabs) {
-        if (tabs.length > 0) {
+        if (tabs.length == 0) {
           getUnreadCount();
         }
     });
-  }, UPDATE_INTERVAL);
+  });
+
+  chrome.alarms.create('refresh', {periodInMinutes: UPDATE_INTERVAL});
   getUnreadCount();
 }
 
@@ -62,6 +66,7 @@ function setError(msg) {
  * Gets unread count from RestAPI call.
  */
 function getUnreadCount() {
+  console.log('getUnreadCount');
   var xhr = new XMLHttpRequest ();
   xhr.onreadystatechange = function () {
     if ( this.readyState == 4 ) {
