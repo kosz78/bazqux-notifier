@@ -2,7 +2,7 @@ var BAZ_QUX_URL = 'https://bazqux.com/reader/api/0/unread-count?output=json';
 var UPDATE_INTERVAL = 2.0; // 2 min interval
 var WIDGET_TITLE = 'BazQux Notifier';
 
-chrome.runtime.onInstalled.addListener(init);
+init();
 
 /**
  * Initializes the widget.
